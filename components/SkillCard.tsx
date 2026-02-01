@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Skill } from '../types';
 
@@ -25,7 +24,10 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, isExpanded, onClick }) => 
 
       <div className="p-6 md:p-8 flex flex-col h-full">
         <div className="flex items-center justify-between mb-4">
-          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-3xl shadow-lg bg-gradient-to-br ${skill.color} group-hover:rotate-6 transition-transform duration-300`}>
+          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-3xl shadow-lg bg-gradient-to-br ${skill.color} 
+            transition-all duration-500 
+            ${isExpanded ? 'animate-icon-active ring-4 ring-white/20' : 'group-hover:rotate-12 group-hover:scale-110'}
+          `}>
             {skill.icon}
           </div>
           <div className={`transition-transform duration-500 ${isExpanded ? 'rotate-180' : ''}`}>
@@ -47,9 +49,9 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, isExpanded, onClick }) => 
         <div className={`transition-all duration-500 overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
           <div className="grid grid-cols-1 gap-3 border-t border-white/10 pt-6">
             {skill.items.map((item, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                <span className="text-sm md:text-base text-white/80 font-light leading-relaxed">
+              <div key={idx} className="flex items-start gap-3 group/item">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
+                <span className="text-sm md:text-base text-white/80 font-light leading-relaxed group-hover/item:text-white transition-colors">
                   {item}
                 </span>
               </div>
