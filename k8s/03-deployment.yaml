@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-devops
+  namespace: devops-portfolio 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-devops
+  template:
+    metadata:
+      labels:
+        app: nginx-devops
+    spec:
+      containers:
+      - name: nginx
+        image: shreeshesh-regmi-devops-portfolio:latest
+        ports:
+        - containerPort: 80
