@@ -34,9 +34,28 @@ docker build -t "$IMAGE_NAME:$IMAGE_TAG" .
 echo "📦 Loading image into Kind cluster..."
 kind load docker-image "$IMAGE_NAME:$IMAGE_TAG" --name "$CLUSTER_NAME"
 
+# Find available NodePort
+echo "🔍 Checking for available NodePort..."
+DEFAULT_NODEPORT=30001
+AVAILABLE_NODEPORT=$(./check-port.sh --find $DEFAULT_NODEPORT)
+
+if [ $? -ne 0 ]; then
+    echo "❌ Could not find an available NodePort"
+    exit 1
+fi
+
+echo "📍 Using NodePort: $AVAILABLE_NODEPORT"
+
+# Create temporary service file with available port
+sed "s/nodePort: 30001/nodePort: $AVAILABLE_NODEPORT/" k8s/04-service.yaml > /tmp/service-temp.yaml
+
 # Apply Kubernetes manifests
 echo "🚀 Applying Kubernetes manifests..."
 kubectl apply -f k8s/ -n "$NAMESPACE"
+kubectl apply -f /tmp/service-temp.yaml -n "$NAMESPACE"
+
+# Clean up temporary file
+rm -f /tmp/service-temp.yaml
 
 # Wait for deployment to be ready
 echo "⏳ Waiting for deployment to be ready..."

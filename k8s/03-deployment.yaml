@@ -16,5 +16,6 @@ spec:
       containers:
       - name: nginx
         image: shreeshesh-regmi-devops-portfolio:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
